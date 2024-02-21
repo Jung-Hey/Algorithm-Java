@@ -1,37 +1,46 @@
 import java.util.*;
 public class Main {
-    public int solution(int n ,int k, int[] arr){
-        int answer= -1;
-        //10 3
-        //13 15 34 23 45 65 33 11 26 42
-        TreeSet<Integer> set = new TreeSet<>(Collections.reverseOrder());
-        for(int i=0;i<n;i++){
-            for(int j=i+1;j<n;j++){
-                for(int l=j+1;l<n;l++){
-                    set.add(arr[i]+arr[j]+arr[l]);
-                }
+    int [] ch;
+    int [] dis = {-1,1,5};
+
+    public int BFS(int s,int e){
+        int level = 0;
+        Queue<Integer> Q = new LinkedList<>();
+        ch = new int[10001]; // 직선좌표의 점은 1~10000이기 때문에 배열 크기 초기화
+        //s는 현수의 위치이다. 현수의 위치에서부터 시작되는 루트노트이기 때문에 방문했다는 의미로 1로 초기화
+        ch[s] = 1;
+        Q.offer(s);
+        //큐가 빌 때까지 반복
+        while (!Q.isEmpty()){
+            //for(int p : Q)System.out.print(p+" ");
+            //System.out.println();
+            int len = Q.size();
+            for(int i=0; i<len; i++){
+                int x = Q.poll();
+                for(int j=0; j<dis.length; j++){
+                    int nx = x + dis[j];
+                    if(nx == e)return level+1;
+                    if(nx>=0 && ch[nx]==0 ){
+                        Q.offer(nx);
+                        ch[nx]=1;
+                    }
+                 }
             }
-        }
-        int cnt=1;
-        for(int i : set){
-            if(cnt==k)return i;
-            cnt++;
+            level++;
         }
 
-
-        return answer;
+        return level;
     }
 
     public static void main(String[] args) {
         Main M = new Main();
         Scanner kb = new Scanner(System.in);
-        int n = kb.nextInt();
-        int k = kb.nextInt();
-        int [] arr = new int [n];
-        for(int i=0;i<n;i++)arr[i]= kb.nextInt();
-        System.out.print(M.solution(n,k,arr));
+        int s = kb.nextInt();
+        int e = kb.nextInt();
+        System.out.print(M.BFS(s,e));
 
     }
 }
+
 
 

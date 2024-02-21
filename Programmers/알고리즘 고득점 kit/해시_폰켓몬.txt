@@ -1,0 +1,19 @@
+import java.util.*;
+class Solution {
+    public int solution(int[] nums) {
+        int answer = 0;
+        int len = nums.length / 2;
+        TreeSet <Integer> set = new TreeSet<>();
+        for(int i: nums)set.add(i);
+        //len: 골라야하는 수 
+        //size: 중복제거된 폰켓몬의 타입 
+        int size = set.size();
+        // 만약 골라야하는 수는 3 인데 중복제거된 폰켓몬 종류의 수는2 일때.
+        // 이때는 고를 수 있는 수가 3인데 중복되지 않게 고를 수 있는 최선이 결국 2이기 때문에
+        //size를 리턴
+        if(len > size) return size;
+        // 위 경우가 아니라면 고를 수 있는 폰켓몬의 수만큼 중복제거된
+        // 폰켓몬을 가질 수 있기 때문에 len을 리턴
+        else return len;
+    }
+}
