@@ -1,6 +1,6 @@
 import java.util.*;
 public class Main {
-    int[][] dy= new int [35][35];
+    static int[][] dy= new int [35][35];
     public int DFS(int n,int r){
         //1. n C r : n개 중에서 r개를 뽑을때의 경우의 수
         //2. n C r == n-1 C r-1 + n-1 C r이다
@@ -18,6 +18,9 @@ public class Main {
         //for(int i=1;i<=n;i++)arr[i]=i;
         int r= kb.nextInt();
         System.out.print(T.DFS(n,r));
+
+
+
 
     }
 }
