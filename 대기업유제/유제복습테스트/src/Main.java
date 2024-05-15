@@ -1,55 +1,46 @@
 import java.util.*;
 class Solution {
-    public int[] solution(int[] arrival, int[] state){
-        int n = arrival.length;
-        int[] answer = new int[n];
-        //1) 1초 전에 현관문을 사용한 적이 없으면 나가는 사원이 먼저 현관문을 이용합니다.
-        //2) 1초 전에 나가는 사원이 현관문을 이용했다면 나가는 사원이 먼저 현관문을 이용합니다.
-        //3) 1초 전에 들어오는 사원이 문을 이용했다면 들어오는 사원이 먼저 현관문을 이용합니다.
-        //4) 같은 방향으로 가려고 하는 사람이 여러명이라면 그 중 사원번호가 가장 작은 사람이 우선 현관문을 이용합니다.
-        LinkedList<Integer> enter = new LinkedList<>();
-        LinkedList<Integer> exit = new LinkedList<>();
-        for(int i=0, t=0, cnt=0, prev=1; ; t++){
-            //시간 건너뛰어야 하는 경우
-            if(enter.isEmpty() && exit.isEmpty() && i<n){
-                if(t < arrival[i]) t = arrival[i];
-            }
-            //t시간까지 들어온 순서(i)대로 나가는지 들어오는지 구분해서 넣음
-            while (i<n && arrival[i] <= t){
-                if(state[i] == 0) enter.offer(i);
-                else exit.offer(i);
-                i++;
-            }
-            if(prev==1){
-                if(!exit.isEmpty()){
-                    answer[exit.poll()] = t;
-                    prev=1;
-                }
-                else{
-                    answer[enter.poll()] = t;
-                    prev=0;
-                }
-            }
-            else if(prev==0){
-                if(!enter.isEmpty()){
-                    answer[enter.poll()] = t;
-                    prev=0;
-                }
-                else{
-                    answer[exit.poll()] = t;
-                    prev=1;
-                }
-            }
-            cnt++;
-            if(cnt == n)break;
+    public int getTime(String str){
+        String[] time = str.split(":");
+        return Integer.parseInt(time[0])*60 + Integer.parseInt(time[1]);
+    }
+    public int solution(int[] laser, String[] enter){
+        int answer = 0;
+        //큐
+        int n = enter.length;
+        int[][] inList = new int[n][2];
+        for(int i = 0; i < n; i++){
+            int a = getTime(enter[i].split(" ")[0]);
+            int b = Integer.parseInt(enter[i].split(" ")[1]);
+            inList[i][0] = a;
+            inList[i][1] = b;
         }
+        Queue<Integer> q = new LinkedList<>(); // 대기실
+        q.offer(inList[0][1]);
+        int ft = inList[0][0];
+        for(int pos=1, t=ft; t<=1200; t++){
+            // 진료가 남았고 다음 진료시간이 되면
+            if( pos < n && t == inList[pos][0] ){
+                //skip
+                if(q.isEmpty() && ft < inList[pos][0] ) ft=inList[pos][0];
+                q.offer(inList[pos][1]);
+                pos++;
+            }
+            // 진료종료시간이 되면 대기실에 한명 빼고 다음 진료종료시간 갱신
+            if(!q.isEmpty() && t==ft ){
+                ft += laser[q.poll()];
+            }
+            answer = Math.max(answer,q.size());
+        }
+
+
         return answer;
     }
 
     public static void main(String[] args){
         Solution T = new Solution();
-        System.out.println(Arrays.toString(T.solution(new int[]{0, 1, 1, 1, 2, 3, 8, 8}, new int[]{1, 0, 0, 1, 0, 0, 1, 0})));
-        System.out.println(Arrays.toString(T.solution(new int[]{3, 3, 4, 5, 5, 5}, new int[]{1, 0, 1, 0, 1, 0})));
-        System.out.println(Arrays.toString(T.solution(new int[]{2, 2, 2, 3, 4, 8, 8, 9, 10, 10}, new int[]{1, 0, 0, 0, 1, 1, 0, 1, 1, 0})));
+        System.out.println(T.solution(new int[]{30, 20, 25, 15}, new String[]{"10:23 0", "10:40 3", "10:42 2", "10:52 3", "11:10 2"}));
+//        System.out.println(T.solution(new int[]{30, 20, 25, 15}, new String[]{"10:23 0", "10:40 3", "10:42 2", "10:52 3", "15:10 0", "15:20 3", "15:22 1", "15:23 0", "15:25 0"}));
+//        System.out.println(T.solution(new int[]{30, 20, 25, 15}, new String[]{"10:20 1", "10:40 1", "11:00 1", "11:20 1", "11:40 1"}));
     }
 }
