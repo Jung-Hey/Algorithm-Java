@@ -1,46 +1,34 @@
 import java.util.*;
 class Solution {
-    public int getTime(String str){
-        String[] time = str.split(":");
-        return Integer.parseInt(time[0])*60 + Integer.parseInt(time[1]);
-    }
-    public int solution(int[] laser, String[] enter){
+    public int solution(int n, int[] nums){
         int answer = 0;
-        //큐
-        int n = enter.length;
-        int[][] inList = new int[n][2];
-        for(int i = 0; i < n; i++){
-            int a = getTime(enter[i].split(" ")[0]);
-            int b = Integer.parseInt(enter[i].split(" ")[1]);
-            inList[i][0] = a;
-            inList[i][1] = b;
+        int[][] range = new int [n+1][2];
+        for(int i=0; i< nums.length; i++){
+            range[i][0] = Math.max(0, i-nums[i]);
+            range[i][1] = Math.min(n, i+nums[i]);
         }
-        Queue<Integer> q = new LinkedList<>(); // 대기실
-        q.offer(inList[0][1]);
-        int ft = inList[0][0];
-        for(int pos=1, t=ft; t<=1200; t++){
-            // 진료가 남았고 다음 진료시간이 되면
-            if( pos < n && t == inList[pos][0] ){
-                //skip
-                if(q.isEmpty() && ft < inList[pos][0] ) ft=inList[pos][0];
-                q.offer(inList[pos][1]);
-                pos++;
+        int s=0, e=0, idx=0;
+        while (idx < range.length){
+            while (idx < range.length && s >= range[idx][0]){
+                e = Math.max(e,range[idx][1]);
+                if(e==n) return answer+1;
+                idx++;
             }
-            // 진료종료시간이 되면 대기실에 한명 빼고 다음 진료종료시간 갱신
-            if(!q.isEmpty() && t==ft ){
-                ft += laser[q.poll()];
-            }
-            answer = Math.max(answer,q.size());
-        }
+            answer++;
+            if(e==n) return answer;
+            if(s == e) return -1;
+            s=e;
 
+        }
 
         return answer;
     }
 
     public static void main(String[] args){
         Solution T = new Solution();
-        System.out.println(T.solution(new int[]{30, 20, 25, 15}, new String[]{"10:23 0", "10:40 3", "10:42 2", "10:52 3", "11:10 2"}));
-//        System.out.println(T.solution(new int[]{30, 20, 25, 15}, new String[]{"10:23 0", "10:40 3", "10:42 2", "10:52 3", "15:10 0", "15:20 3", "15:22 1", "15:23 0", "15:25 0"}));
-//        System.out.println(T.solution(new int[]{30, 20, 25, 15}, new String[]{"10:20 1", "10:40 1", "11:00 1", "11:20 1", "11:40 1"}));
+        System.out.println(T.solution(8, new int[]{1, 1, 1, 2, 1, 1, 2, 1, 1}));
+        System.out.println(T.solution(4, new int[]{1, 2, 2, 0, 0}));
+        System.out.println(T.solution(5, new int[]{2, 0, 0, 0, 0, 2}));
+        System.out.println(T.solution(11, new int[]{1, 2, 3, 1, 2, 1, 1, 2, 1, 1, 1, 1}));
     }
 }
