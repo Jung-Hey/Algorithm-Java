@@ -1,33 +1,42 @@
-/**
- * 플로이드 와샬 이것만 기억하자
- * 2 -> 3 정점으로 간다면 즉 i -> j로  간다면, 거쳐가는 노드(k)를 계산해야 함.
- * 핵심은 i -> j VS i -> k + k -> j 가중치 비교
- */
 import java.util.*;
 class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int [][] arr = new int[n][n];
-        for(int i=0; i<n; i++){
+        int t = sc.nextInt();
+        StringBuilder sb = new StringBuilder();
+        // t : 테스트케이스 만큼 반복
+        for(int i=0; i<t; i++){
+            int n = sc.nextInt();
+            int len = n;
+            int [] arr = new int[n];
             for(int j=0; j<n; j++){
-                arr[i][j]= sc.nextInt();
+                arr[j] = sc.nextInt();
             }
-        }
-        //solve
-        for(int k=0; k<n; k++){
-            for(int i=0; i<n; i++){
-                for(int j=0; j<n; j++){
-                    if(arr[i][k]==1 && arr[k][j]==1) arr[i][j]=1;
-                }
+            Deque<Integer> dq = new LinkedList<>();
+            //정렬
+            Arrays.sort(arr);
+            //통나무가 홀수개인 경우
+            if(len%2==1){
+                len--;
+                dq.add(arr[n-1]);
             }
+            // 최소 난이도가 되도록 배치
+            for(int j=len-1; j>=0; j-=2){
+                int a = arr[j-1];
+                int b = arr[j];
+                dq.addFirst(a);
+                dq.addLast(b);
+            }
+            //get answer
+            int answer = Integer.MAX_VALUE;
+            for(int j=0; j<n; j++) arr[j] = dq.pollFirst();
+            answer= Math.abs(arr[0]-arr[n-1]);
+            for(int j=0; j<n-1; j++){
+                answer= Math.max(answer,Math.abs(arr[j]-arr[j+1]));
+            }
+            sb.append(answer).append("\n");
         }
         //output
-        for(int i=0; i<n; i++){
-            for(int j=0; j<n; j++){
-                System.out.print(arr[i][j]+" ");
-            }
-            System.out.println();
-        }
+        System.out.println(sb);
     }
 }
