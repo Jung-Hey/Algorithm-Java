@@ -1,33 +1,42 @@
 import java.util.*;
 
 class Main {
-    static int n,d;
+    static int[] arr;
+    static int N,M;
+
+    static boolean isPossible(int mid){
+        int prev = 0;
+        for(int i=0; i< arr.length; i++){
+            if(arr[i]-mid <= prev){
+                prev = arr[i]+mid;
+            }
+            else{
+                return false;
+            }
+        }
+        return (N-prev) <= 0;
+    }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        StringBuilder sb = new StringBuilder();
-        int t = sc.nextInt();
-        // 테스트케이스 만큼 반복
-        for(int i=0; i<t; i++){
-            int n = sc.nextInt();
-            int[] coins = new int[n];
-            for(int j=0; j<n; j++) coins[j] = sc.nextInt();
-            int target = sc.nextInt();
-            int[] dp = new int[target+1];
-            //dp
-            for(int k = 0; k<n; k++){ // 동전 종류
-                for(int l = 1; l<=target; l++){ // 각 l원 마다 만들 수 있는 동전 수
-                    if( l - coins[k] > 0 ){
-                        dp[l] = dp[l] + dp[l- coins[k]];
-                    }
-                    else if( l - coins[k] == 0 ){
-                        dp[l]++;
-                    }
-                }
-                System.out.println(Arrays.toString(dp));
+        // input
+        N =sc.nextInt(); //굴다리의 길이
+        M =sc.nextInt(); //설치할 가로수 갯수.
+        arr = new int[M];// 가로등이 설치된 지점 입력 받기
+        for(int i = 0; i < M; i++) arr[i] = sc.nextInt();
+        int left = 1;
+        int right = N;
+        int result = 0;
+        while(left <= right) {
+            int mid = (left + right) / 2;
+            if(isPossible(mid)) {
+                result = mid;
+                right = mid - 1;
             }
-            sb.append(dp[target]).append("\n");
+            else left = mid + 1;
         }
-        System.out.println(sb);
+        //output
+        System.out.println(result);
+
     }
 }
