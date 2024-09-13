@@ -1,42 +1,60 @@
 import java.util.*;
 
 class Main {
-    static int[] arr;
-    static int N,M;
-
-    static boolean isPossible(int mid){
-        int prev = 0;
-        for(int i=0; i< arr.length; i++){
-            if(arr[i]-mid <= prev){
-                prev = arr[i]+mid;
-            }
-            else{
-                return false;
-            }
+    static class Connect implements Comparable<Connect>{
+        int v1;
+        int v2;
+        int cost;
+        public Connect(int v1, int v2, int cost) {
+            this.v1 = v1;
+            this.v2 = v2;
+            this.cost = cost;
         }
-        return (N-prev) <= 0;
+        @Override
+        public int compareTo(Connect o) {
+            return this.cost - o.cost;
+        }
+    }
+    static int[] unf;
+    static int ans;
+    public static int find(int e){
+        if(e == unf[e]) return e;
+        else return unf[e]=find(unf[e]);
+    }
+    public static void union(int a, int b){
+//        int fa = find(a);
+//        int fb = find(b);
+        if(a != b){
+            unf[a]=b;
+        }
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // input
-        N =sc.nextInt(); //굴다리의 길이
-        M =sc.nextInt(); //설치할 가로수 갯수.
-        arr = new int[M];// 가로등이 설치된 지점 입력 받기
-        for(int i = 0; i < M; i++) arr[i] = sc.nextInt();
-        int left = 1;
-        int right = N;
-        int result = 0;
-        while(left <= right) {
-            int mid = (left + right) / 2;
-            if(isPossible(mid)) {
-                result = mid;
-                right = mid - 1;
-            }
-            else left = mid + 1;
+        ans=0;
+        int n =sc.nextInt();
+        unf = new int[n+1];
+        for(int i=1;i<=n; i++) unf[i] = i;
+        ArrayList<Connect> list = new ArrayList<>();
+        int m = sc.nextInt();
+        for(int i=0; i<m; i++){
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            int c = sc.nextInt();
+            if(a!=b) list.add(new Connect(a,b,c));
         }
-        //output
-        System.out.println(result);
 
+        Collections.sort(list);
+        for(int i=0; i<list.size(); i++){
+            Connect tmp = list.get(i);
+            int fa = find(tmp.v1);
+            int fb = find(tmp.v2);
+            if(fa != fb){
+                ans+=tmp.cost;
+                union(fa,fb);
+                //System.out.println(fa+" - "+ fb+  " 연결 , ans = "+ans);
+            }
+        }
+        System.out.println(ans);
     }
 }
