@@ -16,16 +16,16 @@ public class Main {
 	
 	private static void spin(int[][] spinArr, int x1, int y1, int x2, int y2) {
         while (x1 < x2 && y1 < y2) {
-            int next = spinArr[x1][y1];
-            int now = 0;
+            int next = spinArr[x1][y1]; // 다음에 넣어줄 값
+            int now = 0; // 현재 값
 
             // 오른쪽
             for (int i = y1 + 1; i <= y2; i++) {
-                now = spinArr[x1][i];
+                now = spinArr[x1][i]; 
                 spinArr[x1][i] = next;
                 next = now;
             }
-
+            
             // 아래
             for (int i = x1 + 1; i <= x2; i++) {
                 now = spinArr[i][y2];
@@ -138,3 +138,4 @@ public class Main {
 	
 }
 
+//
