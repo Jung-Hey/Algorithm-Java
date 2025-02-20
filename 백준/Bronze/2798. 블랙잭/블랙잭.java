@@ -6,8 +6,8 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
 /**
- * 15916 kb
- * 124 ms
+ * 14584 kb
+ * 108 ms
  * 15650번
  * 
  * 뽑을 수가 3이 고정이기 때문에 반복문 이용 
@@ -33,10 +33,11 @@ class Main
         	for(int j=i+1; j<n; j++) {
         		for(int k=j+1; k<n; k++) {
         			int sum = arr[i]+arr[j]+arr[k];
-                	if(sum > target) {
-                		break;
-                	}
-                	else answer = Math.max(answer, sum);
+//                	if(sum > target) {
+//                		break;
+//                	}
+//                	else answer = Math.max(answer, sum);
+        			if(sum <= target) answer = Math.max(answer, sum);
                 }
             }
         }
