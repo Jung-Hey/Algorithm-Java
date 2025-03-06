@@ -1,13 +1,11 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 
 public class Main {
 
-	static ArrayList<ArrayList<int[]>> graph;
+	static int[][] graph;
 	static boolean[] isVisited;
 	static int n;
 	static int answer = Integer.MAX_VALUE;
@@ -16,16 +14,10 @@ public class Main {
 		// input
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		n = Integer.parseInt(br.readLine());
-		graph = new ArrayList<ArrayList<int[]>>();
-		for (int i = 0; i < n; i++) graph.add(new ArrayList<>());
-		
+		graph = new int[n][n];
 		for (int i = 0; i < n; i++) {
-			int [] edge = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-			for (int j = 0; j < n; j++) {
-				if(edge[j] != 0) graph.get(i).add(new int[] {j, edge[j]} );
-			}
+			graph[i] = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
 		}
-	
 		// solve
 		for (int i = 0; i < n; i++) {
 			isVisited = new boolean[n];
@@ -36,29 +28,23 @@ public class Main {
 		System.out.println(answer);
 		
 	}
-	private static void dfs(int level, int now, int cost) {
+	private static void dfs(int l, int now, int cost) {
         if(answer < cost) return; // 가지치기
-
 		// 전부 순회했다면 
 		if(isAllVisited()) {
-			// 시작 지점으로 돌아갈 수 있어야 함
-			if(level == now) return;
-			// 현재 노드에서 출발 노드로의 거리 더해줌(마지막으로 원래 노드로 돌아감)
-			for(int[] endNodeEdges : graph.get(now)) {
-				if(endNodeEdges[0] == level) {
-					cost += endNodeEdges[1];
-					answer = Math.min(answer, cost);
-				}
+			if(graph[now][l] != 0) { // 돌아갈 수 있어야 함
+				cost += graph[now][l]; // 마지막으로 원래 노드로 돌아감
+				answer = Math.min(answer, cost);
 			}
 		}
 		else {
-			for (int [] node : graph.get(now)) {
-				// 방문하지 않았고 길(경로)이 있으면 탐색 
-				if(!isVisited[node[0]]) {
-					isVisited[node[0]] = true;
-					dfs(level, node[0], cost+node[1]);
-					isVisited[node[0]] = false;
-				} 
+			for (int i = 0; i < n; i++) {
+				// 방문하지 않았고 길이 있으면 탐색 
+				if(!isVisited[i] && graph[now][i] != 0) {
+					isVisited[i] = true;
+					dfs(l, i, cost+graph[now][i]);
+					isVisited[i] = false;
+				} // 
 			}
 			
 		}
