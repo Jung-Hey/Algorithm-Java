@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 /**
  * Baekjoon 10026. 적록색약 
  * 
- * <p> Time: 132 ms, Memory: 18536 KB </p> 
+ * <p> Time: 140 ms, Memory: 17188 KB </p> 
  * @author JungHyeon Heo
  */
 
@@ -29,7 +29,7 @@ public class Main {
 		for (int i = 0; i < n; i++) {
 			arr[i] = br.readLine().toCharArray();
 		}
-		// 최초 구역은 세면서 R과 G는 ->'*'로 변경 B는 '.'
+		// 최초 구역은 세면서 R과 G는 ->'*'로 변경. B는 -> '.' 로 변경
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 				if(arr[i][j] != '*' &&  arr[i][j] != '.') {
@@ -38,7 +38,7 @@ public class Main {
 				}
 			}
 		}
-		// 2번째 적록색약에 대해서는 '*' 든 '.'든 -> '_' 로 변경
+		// 2번째 적록색약에 대해서는 '*'든 '.'든 -> '_' 로 변경
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 				if(arr[i][j] != '_') {
@@ -47,19 +47,13 @@ public class Main {
 				}
 			}
 		}
-		
-		
-//		for (int i = 0; i < n; i++) {
-//			System.out.println(Arrays.toString(arr[i]));
-//		}
+		// out
 		System.out.println(jungSang+" "+bJungSang);
-
 	}
 	private static void fill(char target, int x, int y, boolean isJungSang) {
 		char to;
 		if(isJungSang) to = (target  == 'R' || target == 'G') ? '*' : '.';
 		else to = '_';
-		
 		Queue<int[]> q= new LinkedList<>();
 		q.offer(new int[] {x,y});
 		arr[x][y] = to;
