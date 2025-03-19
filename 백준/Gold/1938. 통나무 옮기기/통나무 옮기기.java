@@ -69,15 +69,7 @@ public class Main {
             }
         }
 
-        // B와 E를 빈 칸으로 변경 (이동 시 장애물로 간주하지 않기 위함)
-        for (int i = 0; i < n; i++){
-            for (int j = 0; j < n; j++){
-                if(arr[i][j]=='B' || arr[i][j]=='E'){
-                    arr[i][j] = '0';
-                }
-            }
-        }
-
+  
         System.out.println(bfs());
     }
 
