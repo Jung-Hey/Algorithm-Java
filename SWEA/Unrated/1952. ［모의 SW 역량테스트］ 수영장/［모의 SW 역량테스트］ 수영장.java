@@ -18,7 +18,7 @@ public class Solution {
 	static StringBuilder sb;
 	static List<Integer> useList;
 	static int answer;
-	static int[] pm, price;
+	static int[]  price;
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));	
 		int tc = Integer.parseInt(br.readLine()), t=0;
@@ -35,7 +35,6 @@ public class Solution {
 			for(int day : m) {
 				if(day > 0) useList.add(day);
 			}
-			pm = new int[useList.size()];
 
 			if(useList.size() > 0) dfs(0,0);
 			else answer=0;
@@ -50,6 +49,7 @@ public class Solution {
 	
 
 	private static void dfs(int l, int sum) {
+		if(sum > answer) return;
 		if(l >= useList.size()) {
 			answer = Math.min(answer, sum);
 		}
