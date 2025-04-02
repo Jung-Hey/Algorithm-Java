@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.Queue;
 import java.util.StringTokenizer;
 /**
- *  kb
- *  ms
+ * 107,540 kb
+ * 390 ms
  */
 public class Solution {
 
@@ -42,6 +42,7 @@ public class Solution {
 				int operateCost = getOperateCost(k);
 				//System.out.println("k 가 "+k +" 일때 운영비용 = "+operateCost);
 				// 운영비용이 모든 집들의 운영비용의 합보다 비싸면 종료
+				if (k > n+1 ) break;
 				if( (m*homeCount < operateCost) ) break;
 				// k 크기의 구역에 대해 집들의 수익을 구함
 				for (int i = 0; i < n; i++) {
@@ -51,17 +52,14 @@ public class Solution {
 				}
 				k++;
 			}
-			
 			sb.append(answer).append("\n");
-			
-		
 		}
 		//output
 		System.out.println(sb);
 	
 	}
 
-
+	// 방법 서비스 시작, 이득일 시 최대 집 수 갱신 
 	private static void startSerive(int x, int y, int k, int operateCost) {
 		int findHomeCount=0;
 		
@@ -91,8 +89,6 @@ public class Solution {
 				}
 			}
 		}
-		// 
-	
 		// 기존 수익보다 높은 수익을 얻으면 갱신
 		if((findHomeCount * m ) - operateCost >= 0) {
 			answer = Math.max(answer, findHomeCount);
@@ -101,8 +97,7 @@ public class Solution {
 	}
 
 
-	// n = 8일때 칸은 64
-	// k = {1:1}, {2:5}, {3:13}, {4:25} 7(4*2-1) + 5*2 + 3*2 + 1*2
+	// 입력 k 에 대한 운영비용 반환
 	private static int getOperateCost(int k) {
 		int cost = 0;
 		cost += k*2 -1; // + 3
