@@ -1,11 +1,8 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayDeque;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
@@ -19,6 +16,10 @@ class Point{
 	}
 	
 }
+/**
+ *  11768 KB
+ *  68 ms
+ */
 public class Main {
 	
 	static char [][] map;
@@ -76,7 +77,6 @@ public class Main {
 						int ny = nowWater.y + dy[j];
 						if(nx<0|| nx>=n || ny < 0 || ny >=m) continue;
 						if(isVisited[nx][ny]) continue;
-						
 						if(map[nx][ny] == '.') {
 							isVisited[nx][ny] = true;
 							map[nx][ny]='*';// 물 확장
@@ -85,7 +85,6 @@ public class Main {
 						
 					}
 				}
-				//print("water");
 			}
 			// 2. 고슴도치 이동
 			int len = q.size();
@@ -95,33 +94,20 @@ public class Main {
 				for (int j = 0; j < 4; j++) {
 					int nx = now.x + dx[j];
 					int ny = now.y + dy[j];
-					if(nx<0|| nx>=n || ny < 0 || ny >=m) {
-						continue;
-					}
-					if(isVisited[nx][ny]) {
-						continue;
-					}
-					if(map[nx][ny] == '*' || map[nx][ny] == 'X') {
-						continue;
-					}
-					// 방문처리
+					if(nx<0|| nx>=n || ny < 0 || ny >=m) continue;
+					if(isVisited[nx][ny]) continue;
+					if(map[nx][ny] == '*' || map[nx][ny] == 'X') continue;
+					// 고슴도치 이동
 					isVisited[nx][ny] = true;
 					q.offer(new Point(nx, ny));
 				}
 			}
-			//print("go");
 			L++;
 			
 		}
 		
 		return -1;
 	}
-	private static void print(String type ) {
-		System.out.println(type);
-		for (int i = 0; i < n; i++) {
-			System.out.println(Arrays.toString(map[i]));
-		}
-		
-	}
+
 }
 
