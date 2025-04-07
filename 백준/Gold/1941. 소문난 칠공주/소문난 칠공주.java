@@ -75,7 +75,6 @@ public class Main {
 		q.offer(new int[] {sx, sy});
 		
 		int len = 1;
-		int somCount = arr[sx][sy]=='S' ? 1 : 0;
 		isVisited[sx][sy] = true; 
 		
 		while(!q.isEmpty()) {
@@ -93,10 +92,9 @@ public class Main {
 				
 				q.offer(new int[] {nx,ny});
 				len++; // 연결된 길이 증가
-				if(arr[nx][ny] == 'S') somCount++; // 다솜이파 학생 수 증가 
 			}
 		}
-		if(len == 7 && somCount >= 4) answer++;
+		if(len == 7) answer++;
 		
 	}
 	
