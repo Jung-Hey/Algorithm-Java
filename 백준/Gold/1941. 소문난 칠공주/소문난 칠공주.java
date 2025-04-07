@@ -10,8 +10,8 @@ import java.util.StringTokenizer;
 
 
 /**
- *  11768 KB
- *  68 ms
+ *  25491 KB
+ *  360 ms
  */
 public class Main {
 	
