@@ -27,23 +27,31 @@ public class Main {
 		}
 		// solve
 		pm = new int[7];
-		dfs(0,0);
+		dfs(0, 0, 0);
 
 		// output
 		System.out.println(answer);
 		
     }
 
-	private static void dfs(int l, int start) {
+	private static void dfs(int l, int start, int limCount) {
+		if(limCount > 3) return;
 		if(l == 7) {
 			makePrincess();
 		}
 		else {
 			for (int i = start; i < 25; i++) {
 				pm[l] = i;
-				dfs(l+1, i+1);
+				dfs(l+1, i+1, isLim(pm[l]) ? limCount+1:limCount);
 			}
 		}
+		
+	}
+
+	private static boolean isLim(int idx) {
+		int x = idx / 5;
+		int y = idx % 5;
+		return arr[x][y] == 'Y';
 		
 	}
 
