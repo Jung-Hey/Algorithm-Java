@@ -6,8 +6,8 @@ import java.util.StringTokenizer;
 import java.util.stream.Stream;
 
 /**
- *  kb
- *  ms
+ * 11860 kb
+ * 72  ms
  */
 public class Main {
 
@@ -88,7 +88,7 @@ public class Main {
 				return;
         	}
 			
-			// 안부족함
+			// 정상적으로 모두 교환을 만족
 			System.out.println(changeCnt);
 			return;
         }
