@@ -26,6 +26,7 @@ public class Main {
         Scanner kb = new Scanner(System.in);
         n= kb.nextInt();
         arr=new int[n];
+        // dy[i] : i를 끝으로 하는 최장증가부분수열의 길이
         dy=new int[n];
         for(int i=0;i<n;i++) arr[i]= kb.nextInt();
         M.solution();
