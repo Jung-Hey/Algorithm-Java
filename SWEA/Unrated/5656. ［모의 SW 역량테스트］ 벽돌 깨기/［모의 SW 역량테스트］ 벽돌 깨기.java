@@ -45,6 +45,7 @@ public class Solution {
     }
 
     private static void dfs(int l) {
+    	if(answer==0) return;
         if (l == n) {
             answer = Math.min(answer, brickSimulation());
             return;
