@@ -6,6 +6,10 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
+/**
+ * 38280 kb
+ * 288 ms
+ */
 public class Main {
     static int n,m,d;
     static int[][] arr;
@@ -26,11 +30,11 @@ public class Main {
         }
         //
         // 3명의 궁수 조합
-        for (int i = 0; i < m; i++) {
+        a:for (int i = 0; i < m; i++) {
             for (int j = i+1; j < m; j++) {
                 for (int k = j+1; k < m; k++) {
-                    if(i==j|| j==k) continue;
                     solve(i,j,k);
+                    if(enemyCnt == killCnt) break a;
                 }
             }
         }
@@ -58,11 +62,8 @@ public class Main {
 					
 				}
 			}
-        	//print(copy);
             // 적 이동
         	tmp = moveEnemy(tmp, copy);
-        	// 확인
-        	//print(copy);
         }
         answer = Math.max(answer, killCnt);
         
@@ -74,13 +75,10 @@ public class Main {
 				if(copy[i][j]==1) {
 					// 제외되는 경우 
 					if(i+1 == n) {
-						//System.out.print("!");
 						copy[i][j]=0;
 						tmp++; 
 					}
 					else {
-						//System.out.print("@");
-
 						copy[i][j] = 0;
 						copy[i+1][j] = 1;
 					}
@@ -90,17 +88,7 @@ public class Main {
 				}
 			}
 		}
-		
 		return tmp;
-		
-	}
-
-	private static void print(int[][] copy) {
-    	System.out.println("tmp = "+tmp +" killCnt = "+killCnt);
-		for (int i = 0; i <= n; i++) {
-			System.out.println(Arrays.toString(copy[i]));
-		}
-		
 	}
 
 	private static boolean bfs(int x, int y, int[][] copy) {
