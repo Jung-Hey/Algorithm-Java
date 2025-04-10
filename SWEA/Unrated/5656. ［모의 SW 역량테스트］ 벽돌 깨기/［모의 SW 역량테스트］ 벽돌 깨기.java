@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Solution {
     static StringBuilder sb;
-    static int answer;
+	static int answer, brickCount;
     static int[][] map;
     static int n, w, h;
     static int[] pm;
@@ -24,21 +24,19 @@ public class Solution {
             h = Integer.parseInt(st.nextToken());
             map = new int[h][w];
             pm = new int[n];
-            int brickCount = 0;
-
-            for (int i = 0; i < h; i++) {
-                st = new StringTokenizer(br.readLine(), " ");
-                for (int j = 0; j < w; j++) {
-                    map[i][j] = Integer.parseInt(st.nextToken());
-                    if (map[i][j] != 0) brickCount++;
-                }
-            }
+            brickCount=0;
+        	for (int i = 0; i < h; i++) {
+				st = new StringTokenizer(br.readLine(), " ");
+				for (int j = 0; j < w; j++) {
+					int v = Integer.parseInt(st.nextToken());
+					map[i][j] = v;
+					if(v != 0) brickCount++;// 벽돌 개수 카운팅
+				}
+			}
 
             answer = brickCount;
             dfs(0);
-//        	pm[0] = 2;
-//			pm[1] = 2;
-//			pm[2] = 6;
+
 			//brickSimulation();
             sb.append("#").append(t).append(" ").append(answer).append("\n");
         }
@@ -59,11 +57,8 @@ public class Solution {
     }
 
     private static int brickSimulation() {
-        int total = 0;
+        int total = brickCount;
         int[][] copyMap = copy();
-        for (int[] row : copyMap)
-            for (int val : row)
-                if (val > 0) total++;
 
         for (int idx : pm) {
             Queue<int[]> q = new ArrayDeque<>();
@@ -79,6 +74,7 @@ public class Solution {
                     break;
                 }
             }
+            boolean needApplyGravity = !q.isEmpty();
             // 연쇄 폭발
             while (!q.isEmpty()) {
                 int[] bomb = q.poll();
@@ -90,7 +86,6 @@ public class Solution {
                         int ny = y + dy[d] * dist;
                         if (nx < 0 || nx >= h || ny < 0 || ny >= w) continue;
                         if (copyMap[nx][ny] == 0) continue;
-
                         int next = copyMap[nx][ny];
                         copyMap[nx][ny] = 0;
                         total--;
@@ -101,7 +96,7 @@ public class Solution {
                 }
             }
             // 중력 적용 
-            applyGravity(copyMap);
+            if(needApplyGravity) applyGravity(copyMap);
         }
         return total;
     }
