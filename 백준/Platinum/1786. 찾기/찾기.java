@@ -6,6 +6,11 @@ import java.util.Arrays;
 import java.util.List;
 
 
+/**
+ * 94952 kb
+ * 2208 ms
+ * KMP 알고리즘 사용
+ */
 public class Main {
 
 	public static void main(String[] args) throws IOException {
@@ -31,9 +36,6 @@ public class Main {
 			// 일치
 			if(pattern.charAt(j) == pattern.charAt(i)) {
 				pi[j] = ++i;
-			}
-			else { // 불일치
-				pi[j] = 0;
 			}
 		}
 		//System.out.println(Arrays.toString(pi));
@@ -68,6 +70,11 @@ public class Main {
 				System.out.print( (num+1) +" ");
 			}
 		}
+		
+		
+		
+		
+		
 
 	}
 
