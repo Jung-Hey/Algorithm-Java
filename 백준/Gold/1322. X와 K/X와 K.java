@@ -1,27 +1,32 @@
 import java.util.Scanner;
 
 public class Main {
+    // 조건 X + Y = X | Y
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int x = sc.nextInt();
-        int k = sc.nextInt(); // k번째 수 
+        int k = sc.nextInt(); // k번째 수
+        // X의 이진 표현에서 0인 비트 위치를 저장
+        StringBuilder xBinary = new StringBuilder(Long.toBinaryString(x)).reverse();
+        int zeroCount = 0;
+        long result = 0;
 
-        long result = 0; // 결과로 사용할 Y 값
-        int bitPosition = 0; // 현재 비트 위치
+        for (int i = 0; ; i++) {
+            // X의 비트 길이를 초과하면 해당 비트는 0으로 간주
+            char xBit = (i < xBinary.length()) ? xBinary.charAt(i) : '0';
 
-        while (k > 0) {
-            // X의 현재 비트가 0인 경우에만 Y의 해당 비트를 설정할 수 있음
-            if ((x & (1L << bitPosition)) == 0) {
-                // k의 가장 낮은 비트를 Y의 현재 비트에 설정
-                if ((k & 1) == 1) {
-                    result |= (1L << bitPosition);
+            if (xBit == '0') {
+                // k의 현재 비트가 1이면 결과에 해당 비트를 설정
+                if ((k & (1L << zeroCount)) != 0) {
+                    result |= (1L << i);
                 }
-                k >>= 1; // k를 오른쪽으로 한 비트 이동
+                zeroCount++;
+                // 모든 비트를 확인했으면 종료
+                if ((1L << zeroCount) > k) break;
             }
-            bitPosition++; // 다음 비트 위치로 이동
         }
-
-        System.out.println(result); // 결과 출력
+    
+        System.out.println(result);
     }
 
 }
